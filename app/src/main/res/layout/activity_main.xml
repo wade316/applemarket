@@ -37,6 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/ig_main_notification"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginEnd="20dp"

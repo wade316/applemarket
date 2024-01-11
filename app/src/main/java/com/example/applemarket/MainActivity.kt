@@ -50,36 +50,43 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val myNotificationID = 1
-    private val channelID = "default"
 
-    private fun createNotificationChannel(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channerl = NotificationChannel(channelID, "default channel", NotificationManager.IMPORTANCE_DEFAULT)
-            channerl.description = "description text of this channel"
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager //as는 왜쓰이는지
-            notificationManager.createNotificationChannel(channerl)
-        }
-    }
-
-
-//    private fun showNotification() {
-//        val builder = NotificationCompat.Builder(this, channelID)
-//            .setSmallIcon(R.mipmap.ic_launcher)
-//            .setContentTitle("title")
-//            .setContentText("notification text")
-//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//        NotificationManagerCompat.from(this).notify(myNotificationID, builder.build())
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        this대신 MainActivity를 하면 안되는이유?
-        this.onBackPressedDispatcher.addCallback(this, callback)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //        this대신 MainActivity를 하면 안되는이유?
+        this.onBackPressedDispatcher.addCallback(this, callback)
+
+        binding.igMainNotification.setOnClickListener {
+
+        }
+
+//      알림설정
+        val myNotificationID = 1
+        val channelID = "default"
+
+        fun createNotificationChannel(){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channerl = NotificationChannel(channelID, "default channel", NotificationManager.IMPORTANCE_DEFAULT)
+                channerl.description = "description text of this channel"
+                val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager //as는 왜쓰이는지
+                notificationManager.createNotificationChannel(channerl)
+            }
+        }
+
+
+        fun showNotification() {
+            val builder = NotificationCompat.Builder(this, channelID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("title")
+                .setContentText("notification text")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//            NotificationManagerCompat.from(this).notify(myNotificationID, builder.build())
+        }
 
 //        fun onBackPressed() {   최근에는 OnBackPressedCallback사용을 권장한다
 //            val builder = AlertDialog.Builder(this)
