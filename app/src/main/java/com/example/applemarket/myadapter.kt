@@ -17,8 +17,12 @@ class myadapter (val mitem: MutableList<myItem>) : RecyclerView.Adapter<myadapte
     interface ItemClick {
         fun onClick(view : View, position : Int)
     }
+    interface ItemLongClick {
+        fun onLongClick(view: View, position: Int)
+    }
 
     var itemClick : ItemClick? = null
+    var itemLongClick : ItemLongClick? = null
 
 //  화면에 띄울 viewholder개수(뷰껍데기) 만듬
 //  스크롤 할때 위아래로 잘려있지만 존재하는 viewholder가 있기때문에 여유로 추가생성하고 더이상 생성하지않음
@@ -33,6 +37,10 @@ class myadapter (val mitem: MutableList<myItem>) : RecyclerView.Adapter<myadapte
     override fun onBindViewHolder(holder: myadapter.Holder, position: Int) {
         holder.itemView.setOnClickListener {
             itemClick?.onClick(it, position)
+        }
+
+        holder.itemView.setOnClickListener {
+            itemLongClick?.onLongClick(it, position)
         }
 //        int로 값을 전달받았을때 오류나는 이유
 //        DecimalFormat했을때 오류가 안나는 이유

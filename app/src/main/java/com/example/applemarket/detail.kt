@@ -11,7 +11,7 @@ import java.text.DecimalFormat
 class detail : AppCompatActivity() {
 
     private lateinit var binding: ActivityDeteilBinding
-
+//버전 체크하는건 거의 고정 정해진 코드는 아니지만 간결하게 표현된 코드임
     private val item: myItem? by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("item_object", myItem::class.java)

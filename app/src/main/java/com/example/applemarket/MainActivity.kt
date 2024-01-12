@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AlphaAnimation
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarket.databinding.ActivityMainBinding
 import com.google.android.engage.food.datamodel.ProductEntity
 
@@ -71,6 +73,36 @@ class MainActivity : AppCompatActivity() {
             notification()
         }
 
+//        스크롤 상단 이동
+        val fadeIn = AlphaAnimation(0f, 1f).apply { duration = 500 }
+        val fadeOut = AlphaAnimation(1f, 0f).apply { duration = 500 }
+        var isTop = true
+
+        binding.recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!binding.recyclerView.canScrollVertically(-1)
+                    && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    binding.upButton.startAnimation(fadeOut)
+                    binding.upButton.visibility = View.GONE
+                    isTop = true
+
+                } else {
+                    if(isTop) {
+                        binding.upButton.visibility = View.VISIBLE
+                        binding.upButton.startAnimation(fadeIn)
+                        isTop = false
+
+                    }
+                }
+            }
+        })
+
+        binding.upButton.setOnClickListener {
+            binding.recyclerView.smoothScrollToPosition(0)
+        }
+
+
         val dec = DecimalFormat("#,###원")
 
 
@@ -96,10 +128,6 @@ class MainActivity : AppCompatActivity() {
 //        아이템 클릭시 이벤트 처리
         adapter.itemClick = object : myadapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-//                val name: String = itemlist[position].detail
-//                Toast.makeText(this@MainActivity," $name 선택!", Toast.LENGTH_SHORT).show()
-//                val mitem = mutableListOf<myItem>()
-
                 val intent = Intent(this@MainActivity, detail::class.java).apply {
                     putExtra("item_index", position)
                     putExtra("item_object", itemlist[position])
@@ -122,9 +150,29 @@ class MainActivity : AppCompatActivity() {
 //                        )
 //                intent.putExtra("data", data)
             }
-        }
-    }
 
+        }
+        adapter.itemLongClick = object : myadapter.ItemLongClick {
+            override fun onLongClick(view: View,position: Int) {
+                AlertDialog.Builder(this@MainActivity).apply {
+                    setIcon(R.drawable.ic_launcher_foreground)
+                    setTitle("${itemlist[position].title} 삭제")
+                    setMessage("${itemlist[position].title}을 정말로 삭제하시겠습니까?")
+                    setPositiveButton("삭제") { dialog, _ ->
+                        itemlist.removeAt(position)
+                        adapter.notifyItemRemoved(position)
+                    }
+                    setNegativeButton("취소") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    show()
+                }
+            }
+        }
+
+
+    }
+//    알림 설정
     fun notification(){
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager //as 는 왜쓰는건지?
 
