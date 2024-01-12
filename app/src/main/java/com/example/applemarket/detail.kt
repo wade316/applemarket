@@ -1,18 +1,31 @@
 package com.example.applemarket
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.applemarket.databinding.ActivityDeteilBinding
 import com.example.applemarket.databinding.ActivityMainBinding
+import java.text.DecimalFormat
 
 class detail : AppCompatActivity() {
 
     private lateinit var binding: ActivityDeteilBinding
 
+    private val item: myItem? by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("item_object", myItem::class.java)
+        }else {
+            intent.getParcelableExtra<myItem>("item_object")
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDeteilBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d("detail", "pricd = ${item?.price}")
 
         val myItemimage = intent.getIntExtra("image", 0)
         val myItemadress = intent.getStringExtra("address")
@@ -20,10 +33,11 @@ class detail : AppCompatActivity() {
         val myItemtitle = intent.getStringExtra("title")
         val myItemdetail = intent.getStringExtra("detail")
         val myItemseller = intent.getStringExtra("seller")
+        Log.d("detail", "$myItemaprice")
 
         binding.igDeteilImage.setImageResource(myItemimage)
         binding.tvDetailAddress.setText(myItemadress)
-        binding.tvDetailPrince.setText(myItemaprice)
+        binding.tvDetailPrice.text = DecimalFormat("#,###").format(item?.price) + "원"
         binding.tvDetailTitle.setText(myItemtitle)
         binding.tvDetailDetail.setText(myItemdetail)
         binding.tvDetailSeller.setText(myItemseller)

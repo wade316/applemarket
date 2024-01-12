@@ -8,7 +8,7 @@ data class myItem(
     val imageicon: Int,
     val title: String,
     val address: String,
-    val price: String,
+    val price: Int,
     val like: String,
     val commet: String,
     val detail: String,

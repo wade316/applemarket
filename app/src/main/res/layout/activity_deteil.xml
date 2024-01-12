@@ -69,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_address_1"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ig_deteil_usericon"
                     app:layout_constraintTop_toBottomOf="@+id/tv_detail_seller" />
@@ -104,6 +105,12 @@
                     android:src="@drawable/img_1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray2"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -167,12 +174,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="35dp"
+            android:background="@color/gray2"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ig_deteil_like"
+            app:layout_constraintStart_toEndOf="@+id/ig_deteil_like"
+            app:layout_constraintTop_toTopOf="@+id/ig_deteil_like" />
+
         <TextView
-            android:id="@+id/tv_detail_prince"
+            android:id="@+id/tv_detail_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1000원"
             android:textSize="30sp"
+            android:textStyle="bold"
             android:layout_marginStart="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ig_deteil_like"

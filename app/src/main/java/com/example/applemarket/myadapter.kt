@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarket.databinding.ActivityMainBinding
 import com.example.applemarket.databinding.ItemLayoutBinding
+import java.text.DecimalFormat
+
 // 데이터 클래스(myItem)의 데이터를 받아온다
 class myadapter (val mitem: MutableList<myItem>) : RecyclerView.Adapter<myadapter.Holder>(){
 
@@ -31,15 +33,19 @@ class myadapter (val mitem: MutableList<myItem>) : RecyclerView.Adapter<myadapte
     override fun onBindViewHolder(holder: myadapter.Holder, position: Int) {
         holder.itemView.setOnClickListener {
             itemClick?.onClick(it, position)
-
         }
+//        int로 값을 전달받았을때 오류나는 이유
+//        DecimalFormat했을때 오류가 안나는 이유
         Log.d("myadapter", "holder = $position")
         holder.itemimage.setImageResource(mitem[position].imageicon)
         holder.title.text = mitem[position].title
         holder.address.text = mitem[position].address
-        holder.price.text = mitem[position].price
+        val price = mitem[position].price
+        holder.price.text = DecimalFormat("#,###").format(price)+"원"
         holder.like.text = mitem[position].like
         holder.comment.text = mitem[position].commet
+    //"${dec.format(it.itemprice)}원"
+    //dec.format(mitem[position].price
     }
 //
     override fun getItemId(position: Int): Long {
